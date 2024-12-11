@@ -113,7 +113,7 @@ while True:
             ignore_index=True
         ).dropna().drop_duplicates()
         aux = rio.drop_duplicates().merge(df, on = "BCMG P.AZUCAR_22O", how = "left").assign(
-            datetime = lambda data: pd.to_datetime(data.FECHA+" "+data.HORA)
+            datetime = lambda data: pd.to_datetime(data.FECHA+" "+data.HORA, format='%Y-%m-%d %H:%M:%S')
         ).dropna().drop_duplicates().reset_index(drop =True)
         ultimo_dato = aux.datetime.max()
         if ultimo_dato not in pd.to_datetime(RIO.datetime).to_list():
