@@ -35,7 +35,7 @@ if 'data' not in st.session_state:
     st.session_state.data = data
 
 @st.fragment(run_every="160s")
-def update()
+def update():
     # Page title
     st.title('Real-time Data Scraping and Plotting')
     
