@@ -74,6 +74,7 @@ while True:
                         skiprows=4)["FECHA;HORA;BCMG P.AZUCAR_22O".split(";")] # For newer pandas versions
         except Exception as e:
             print("no captura")
+            time.sleep(30)
             continue
     
         if dt.datetime(hora_actual.year, hora_actual.month, hora_actual.day, 0, 0, 0) < hora_actual <= dt.datetime(hora_actual.year, hora_actual.month, hora_actual.day, 8, 0, 0):
@@ -141,4 +142,5 @@ while True:
             )
         )
         st.plotly_chart(fig)
+        time.sleep(60)
         # plot_placeholder.plotly_chart(fig, use_container_width=True, key = "plot_1")
