@@ -30,6 +30,9 @@ data = {
     i : RIO[i].to_list() for i in RIO.columns    
 }
 
+# Initialize session state with loaded data
+if 'data' not in st.session_state:
+    st.session_state.data = data
 
 # Page title
 st.title('Real-time Data Scraping and Plotting')
