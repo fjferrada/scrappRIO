@@ -116,8 +116,8 @@ while True:
         RIO.to_csv("RIOs/registro.csv", index = False)
         for i in aux_final.columns:
             data[i].append(aux_final[i].values[0])
-
-    fig = px.line(RIO, x = "datetime", y = "cmg",
+    filtroFecha = dt.datetime.now()-dt.timedelta(hours = 48)
+    fig = px.line(RIO.query("datetime>=@filtroFecha"), x = "datetime", y = "cmg",
                   title = "Real-time RIO",
                   labels = {"datetime": "Fecha y Hora", "cmg": "USD/MWh Barra Nueva Pan de Azucar"})
     st.plotly_chart(fig, use_container_width=True)
