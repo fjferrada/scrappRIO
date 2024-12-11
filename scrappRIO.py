@@ -114,7 +114,7 @@ while True:
     ultimo_dato = aux.datetime.max()
     if ultimo_dato not in pd.to_datetime(RIO.datetime).to_list():
         all_dates_in_rio = RIO.datetime.unique()
-        aux_not_in_RIO = aux.query("@datetime.isin(@all_dates_in_rio)")
+        aux_not_in_RIO = aux.query("~datetime.isin(@all_dates_in_rio)")
         if len(aux_not_in_RIO) > 0:
             RIO = pd.concat([RIO, aux_not_in_RIO], ignore_index=True).sort_values(by = "datetime").reset_index(drop = True)
             RIO.to_csv("RIOs/registro.csv", index = False)
