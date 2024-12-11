@@ -144,7 +144,7 @@ while True:
             )
         )
         with plot_spot:
-            st.plotly_chart(fig, use_container_width = True, key = f"key_{i}")
+            st.plotly_chart(fig, use_container_width = True, key = f"key_{n_n}")
         n_n+=1
         # st.line_chart(x = st.session_state.data["datetime"], y = st.session_state.data["cmg"])
         time.sleep(60)
