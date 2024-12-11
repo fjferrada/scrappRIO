@@ -126,7 +126,7 @@ while True:
     fig = px.line(x = st.session_state.data["datetime"], y = st.session_state.data["cmg"]
                   , hover_data = {"price_maker": st.session_state.data["BCMG P.AZUCAR_22O"]}
                   , title = "Real-time RIO"
-                  . labels = {"datetime": "Fecha y Hora", "cmg": "USD/MWh Barra Nueva Pan de Azucar"})
+                  , labels = {"datetime": "Fecha y Hora", "cmg": "USD/MWh Barra Nueva Pan de Azucar"})
     fig.update_layout(
         xaxis=dict(
             title=dict(
