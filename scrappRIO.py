@@ -118,7 +118,7 @@ while True:
         if len(aux_not_in_RIO) > 0:
             RIO = pd.concat([RIO, aux_not_in_RIO], ignore_index=True).sort_values(by = "datetime").reset_index(drop = True)
             RIO.to_csv("RIOs/registro.csv", index = False)
-            filtro_fecha = dt.datetime.now() - dt.timedelat(hours = 48)
+            filtro_fecha = dt.datetime.now() - dt.timedelta(hours = 48)
             for i in RIO.columns:
                 if len(RIO) > 48:
                     st.session_state.data[i] = RIO.query("datetime >= @filtro_fecha")[i].to_list()
