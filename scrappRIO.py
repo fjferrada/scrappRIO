@@ -115,9 +115,12 @@ while True:
         RIO = pd.concat([RIO, aux_final], ignore_index=True).sort_values(by = "datetime").reset_index(drop = True)
         RIO.to_csv("RIOs/registro.csv", index = False)
         for i in aux_final.columns:
-            data[i].append(aux_final[i].values[0])
-    filtroFecha = dt.datetime.now()-dt.timedelta(hours = 48)
-    fig = px.line(RIO.query("datetime>=@filtroFecha"), x = "datetime", y = "cmg",
+            if len(RIO) > 48:
+                st.session_state.data[i] = RIO[i].to_list()[-48:]
+            else:
+                st.session_state.data[i] = RIO[i].to_list()
+    # filtroFecha = dt.datetime.now()-dt.timedelta(hours = 48)
+    fig = px.line(x = st.session_state.data["datetime"], y = st.session_state.data["cmg"],
                   title = "Real-time RIO",
                   labels = {"datetime": "Fecha y Hora", "cmg": "USD/MWh Barra Nueva Pan de Azucar"})
     st.plotly_chart(fig, use_container_width=True)
