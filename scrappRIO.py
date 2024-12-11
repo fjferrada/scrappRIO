@@ -123,9 +123,9 @@ while True:
                 RIO = pd.concat([RIO, aux_not_in_RIO], ignore_index=True).sort_values(by = "datetime").reset_index(drop = True)
                 RIO.to_csv("RIOs/registro.csv", index = False)
                 filtro_fecha = dt.datetime.now() - dt.timedelta(hours = 48)
-                for i in RIO.columns:
-                    #if len(RIO) > 48:
-                    st.session_state.data[i] = RIO.query("datetime >= @filtro_fecha")[i].to_list()
+        for i in RIO.columns:
+            #if len(RIO) > 48:
+            st.session_state.data[i] = RIO.query("datetime >= @filtro_fecha")[i].to_list()
         filtroFecha = dt.datetime.now()-dt.timedelta(hours = 48)
         fig = px.line(x = st.session_state.data["datetime"], y = st.session_state.data["cmg"]
                       , hover_data = {"price_maker": st.session_state.data["BCMG P.AZUCAR_22O"]}
