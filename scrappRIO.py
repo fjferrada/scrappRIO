@@ -114,9 +114,11 @@ while True:
     ).dropna().drop_duplicates().reset_index(drop =True)
     ultimo_dato = aux.datetime.max()
     if ultimo_dato not in pd.to_datetime(RIO.datetime).to_list():
-        aux_final = aux.query("datetime == @ultimo_dato")
-        RIO = pd.concat([RIO, aux_final], ignore_index=True).sort_values(by = "datetime").reset_index(drop = True)
-        RIO.to_csv("RIOs/registro.csv", index = False)
+        all_dates_in_rio = RIO.datetime.unique()
+        aux_not_in_RIO = aux.query("@datetime.isin(@all_dates_in_rio)")
+        if len(aux_not_in_RIO) > 0:
+            RIO = pd.concat([RIO, aux_not_in_RIO], ignore_index=True).sort_values(by = "datetime").reset_index(drop = True)
+            RIO.to_csv("RIOs/registro.csv", index = False)
         for i in aux_final.columns:
             if len(RIO) > 48:
                 st.session_state.data[i] = RIO[i].to_list()[-48:]
@@ -138,5 +140,5 @@ while True:
             )
         )
     )
-    st.plotly_chart(fig, use_container_width=True)
+    st.plotly_chart(fig, use_container_width=True, key = "plot_1")
     time.sleep(60)
