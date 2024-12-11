@@ -36,7 +36,7 @@ if 'data' not in st.session_state:
     
 plot_spot = st.empty() # holding the spot for the graph
 # def update(st.session_state.data, RIO):
-i = 0
+n_n = 0
 while True:
     # Page title
     st.title('Real-time Data Scraping and Plotting')
@@ -145,7 +145,7 @@ while True:
         )
         with plot_spot:
             st.plotly_chart(fig, use_container_width = True, key = f"key_{i}")
-        i+=1
+        n_n+=1
         # st.line_chart(x = st.session_state.data["datetime"], y = st.session_state.data["cmg"])
         time.sleep(60)
         # plot_placeholder.plotly_chart(fig, use_container_width=True, key = "plot_1")
