@@ -119,7 +119,7 @@ while True:
         if len(aux_not_in_RIO) > 0:
             RIO = pd.concat([RIO, aux_not_in_RIO], ignore_index=True).sort_values(by = "datetime").reset_index(drop = True)
             RIO.to_csv("RIOs/registro.csv", index = False)
-        for i in aux_final.columns:
+        for i in RIO.columns:
             if len(RIO) > 48:
                 st.session_state.data[i] = RIO[i].to_list()[-48:]
             else:
