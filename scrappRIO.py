@@ -126,5 +126,17 @@ while True:
     fig = px.line(x = st.session_state.data["datetime"], y = st.session_state.data["cmg"],
                   title = "Real-time RIO",
                   labels = {"datetime": "Fecha y Hora", "cmg": "USD/MWh Barra Nueva Pan de Azucar"})
+    fig.update_layout(
+        xaxis=dict(
+            title=dict(
+                text="time"
+            )
+        ),
+        yaxis=dict(
+            title=dict(
+                text="USD/MWh"
+            )
+        )
+    )
     st.plotly_chart(fig, use_container_width=True)
     time.sleep(60)
