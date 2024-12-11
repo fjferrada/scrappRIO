@@ -125,22 +125,23 @@ while True:
                     if len(RIO) > 48:
                         st.session_state.data[i] = RIO.query("datetime >= @filtro_fecha")[i].to_list()
         # filtroFecha = dt.datetime.now()-dt.timedelta(hours = 48)
-        fig = px.line(x = st.session_state.data["datetime"], y = st.session_state.data["cmg"]
-                      , hover_data = {"price_maker": st.session_state.data["BCMG P.AZUCAR_22O"]}
-                      , title = "Real-time RIO"
-                      , labels = {"datetime": "Fecha y Hora", "cmg": "USD/MWh Barra Nueva Pan de Azucar"})
-        fig.update_layout(
-            xaxis=dict(
-                title=dict(
-                    text="time"
-                )
-            ),
-            yaxis=dict(
-                title=dict(
-                    text="USD/MWh"
-                )
-            )
-        )
-        st.plotly_chart(fig)
+        # fig = px.line(x = st.session_state.data["datetime"], y = st.session_state.data["cmg"]
+        #               , hover_data = {"price_maker": st.session_state.data["BCMG P.AZUCAR_22O"]}
+        #               , title = "Real-time RIO"
+        #               , labels = {"datetime": "Fecha y Hora", "cmg": "USD/MWh Barra Nueva Pan de Azucar"})
+        # fig.update_layout(
+        #     xaxis=dict(
+        #         title=dict(
+        #             text="time"
+        #         )
+        #     ),
+        #     yaxis=dict(
+        #         title=dict(
+        #             text="USD/MWh"
+        #         )
+        #     )
+        # )
+        # st.plotly_chart(fig)
+        st.line_chart(x = st.session_state.data["datetime"], y = st.session_state.data["cmg"])
         time.sleep(60)
         # plot_placeholder.plotly_chart(fig, use_container_width=True, key = "plot_1")
