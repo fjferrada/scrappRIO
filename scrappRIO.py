@@ -139,5 +139,7 @@ while True:
             )
         )
     )
-    plot_placeholder.plotly_chart(fig, use_container_width=True, key = "plot_1")
+    with plot_spot:
+        st.plotly_chart(fig)
+    # plot_placeholder.plotly_chart(fig, use_container_width=True, key = "plot_1")
     time.sleep(60)
