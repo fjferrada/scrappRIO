@@ -34,8 +34,7 @@ data = {
 if 'data' not in st.session_state:
     st.session_state.data = data
 
-@st.fragment(run_every="160s")
-def update():
+def update(st.session_state.data, RIO):
     # Page title
     st.title('Real-time Data Scraping and Plotting')
     
@@ -142,4 +141,5 @@ def update():
         )
         st.plotly_chart(fig)
         # plot_placeholder.plotly_chart(fig, use_container_width=True, key = "plot_1")
-update()
+while True:
+    update()
