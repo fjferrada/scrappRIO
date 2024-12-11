@@ -127,17 +127,17 @@ while True:
     # , hover_data = {"price_maker": st.session_state.data["BCMG P.AZUCAR_22O"]}
     #               , title = "Real-time RIO"
     #               , labels = {"datetime": "Fecha y Hora", "cmg": "USD/MWh Barra Nueva Pan de Azucar"}
-    fig.update_layout(
-        xaxis=dict(
-            title=dict(
-                text="time"
-            )
-        ),
-        yaxis=dict(
-            title=dict(
-                text="USD/MWh"
-            )
-        )
-    )
-    plot_placeholder.plotly_chart(fig, use_container_width=True, key = "plot_1")
+    # fig.update_layout(
+    #     xaxis=dict(
+    #         title=dict(
+    #             text="time"
+    #         )
+    #     ),
+    #     yaxis=dict(
+    #         title=dict(
+    #             text="USD/MWh"
+    #         )
+    #     )
+    # )
+    # plot_placeholder.plotly_chart(fig, use_container_width=True, key = "plot_1")
     time.sleep(60)
