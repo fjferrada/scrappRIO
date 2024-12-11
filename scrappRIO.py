@@ -34,12 +34,12 @@ data = {
 if 'data' not in st.session_state:
     st.session_state.data = data
     
+st.title('Real-time Data Scraping and Plotting')
 plot_spot = st.empty() # holding the spot for the graph
 # def update(st.session_state.data, RIO):
 n_n = 0
 while True:
     # Page title
-    st.title('Real-time Data Scraping and Plotting')
     
     # Create placeholder for the plot
     # plot_placeholder = st.empty()
@@ -124,8 +124,8 @@ while True:
                 RIO.to_csv("RIOs/registro.csv", index = False)
                 filtro_fecha = dt.datetime.now() - dt.timedelta(hours = 48)
                 for i in RIO.columns:
-                    if len(RIO) > 48:
-                        st.session_state.data[i] = RIO.query("datetime >= @filtro_fecha")[i].to_list()
+                    #if len(RIO) > 48:
+                    st.session_state.data[i] = RIO.query("datetime >= @filtro_fecha")[i].to_list()
         filtroFecha = dt.datetime.now()-dt.timedelta(hours = 48)
         fig = px.line(x = st.session_state.data["datetime"], y = st.session_state.data["cmg"]
                       , hover_data = {"price_maker": st.session_state.data["BCMG P.AZUCAR_22O"]}
