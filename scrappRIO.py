@@ -14,7 +14,7 @@ import os
 if os.path.isfile("RIOs/registro.csv"):
     RIO =pd.read_csv("RIOs/registro.csv").assign(
         datetime = lambda data: pd.to_datetime(data.datetime)
-    )
+    ).sort_values(by = "datetime").reset_index(drop = True)
 else:
     if not os.path.exists("RIOs/"):
         os.mkdir("RIOs/")
@@ -112,7 +112,7 @@ while True:
     ultimo_dato = aux.datetime.max()
     if ultimo_dato not in pd.to_datetime(RIO.datetime).to_list():
         aux_final = aux.query("datetime == @ultimo_dato")
-        RIO = pd.concat([RIO, aux_final], ignore_index=True)
+        RIO = pd.concat([RIO, aux_final], ignore_index=True).sort_values(by = "datetime").reset_index(drop = True)
         RIO.to_csv("RIOs/registro.csv", index = False)
         for i in aux_final.columns:
             data[i].append(aux_final[i].values[0])
