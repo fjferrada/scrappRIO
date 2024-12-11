@@ -72,8 +72,7 @@ while True:
                     skiprows=4)["FECHA;HORA;BCMG P.AZUCAR_22O".split(";")] # For newer pandas versions
     except Exception as e:
         print("no captura")
-        i+=1
-        time.sleep(120)
+        time.sleep(60)
         continue
 
     if dt.datetime(hora_actual.year, hora_actual.month, hora_actual.day, 0, 0, 0) < hora_actual <= dt.datetime(hora_actual.year, hora_actual.month, hora_actual.day, 8, 0, 0):
