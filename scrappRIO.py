@@ -123,10 +123,10 @@ while True:
                 if len(RIO) > 48:
                     st.session_state.data[i] = RIO.query("datetime >= @filtro_fecha")[i].to_list()
     # filtroFecha = dt.datetime.now()-dt.timedelta(hours = 48)
-    fig = px.line(x = st.session_state.data["datetime"], y = st.session_state.data["cmg"]
-                  , hover_data = {"price_maker": st.session_state.data["BCMG P.AZUCAR_22O"]}
-                  , title = "Real-time RIO"
-                  , labels = {"datetime": "Fecha y Hora", "cmg": "USD/MWh Barra Nueva Pan de Azucar"})
+    st.line_chart(x = st.session_state.data["datetime"], y = st.session_state.data["cmg"])
+    # , hover_data = {"price_maker": st.session_state.data["BCMG P.AZUCAR_22O"]}
+    #               , title = "Real-time RIO"
+    #               , labels = {"datetime": "Fecha y Hora", "cmg": "USD/MWh Barra Nueva Pan de Azucar"}
     fig.update_layout(
         xaxis=dict(
             title=dict(
