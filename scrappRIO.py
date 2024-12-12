@@ -35,25 +35,17 @@ if 'data' not in st.session_state:
     st.session_state.data = data
     
 st.title('Real-time Data Scraping and Plotting')
-# def update(st.session_state.data, RIO):
+if st.button('Download CSV'):
+    df = pd.DataFrame(st.session_state.data)
+    st.download_button(
+        label="Download data as CSV",
+        data=df.to_csv(index=False).encode('utf-8'),
+        file_name='scraped_data.csv',
+        mime='text/csv',
+    )
+plot_spot = st.empty() # holding the spot for the graph
 n_n = 0
 while True:
-    # Page title
-    plot_spot = st.empty() # holding the spot for the graph
-    
-    # Create placeholder for the plot
-    # plot_placeholder = st.empty()
-    
-    # Add a download button for the CSV
-    if st.button('Download CSV'):
-        df = pd.DataFrame(st.session_state.data)
-        st.download_button(
-            label="Download data as CSV",
-            data=df.to_csv(index=False).encode('utf-8'),
-            file_name='scraped_data.csv',
-            mime='text/csv',
-        )
-    
     # while True:
     hora_actual = dt.datetime.now()
     url = f'https://www.coordinador.cl/wp-admin/admin-ajax.php?action=export_energia_csv&fecha_inicio={hora_actual.strftime("%Y-%m-%d")}&fecha_termino={hora_actual.strftime("%Y-%m-%d")}&hora_inicio=00:00:00&hora_termino=23:59:59'
