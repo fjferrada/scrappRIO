@@ -44,17 +44,29 @@ if st.button('Download CSV'):
         mime='text/csv',
     )
 plot_spot = st.empty() # holding the spot for the graph
+user_agents = [
+    'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/92.0.4515.107 Safari/537.36',
+    'Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:90.0) Gecko/20100101 Firefox/90.0',
+    'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/605.1.15 (KHTML, like Gecko) Version/14.1.2 Safari/605.1.15',
+    'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/92.0.902.62 Safari/537.36 Edg/92.0.902.62',
+    'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/92.0.4515.107 Safari/537.36 OPR/78.0.4093.147',
+    'Mozilla/5.0 (Linux; Android 10; SM-G975F) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/92.0.4515.107 Mobile Safari/537.36',
+    'Mozilla/5.0 (iPhone; CPU iPhone OS 14_6 like Mac OS X) AppleWebKit/605.1.15 (KHTML, like Gecko) Version/14.0 Mobile/15E148 Safari/604.1',
+    'Mozilla/5.0 (Macintosh; Intel Mac OS X 10.15; rv:90.0) Gecko/20100101 Firefox/90.0',
+    'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/92.0.4515.107 Safari/537.36',
+    'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/92.0.902.62 Safari/537.36 Edg/92.0.902.62'
+]
 n_n = 0
 while True:
     # while True:
     hora_actual = dt.datetime.now()
     url = f'https://www.coordinador.cl/wp-admin/admin-ajax.php?action=export_energia_csv&fecha_inicio={hora_actual.strftime("%Y-%m-%d")}&fecha_termino={hora_actual.strftime("%Y-%m-%d")}&hora_inicio=00:00:00&hora_termino=23:59:59'
     scraper = cloudscraper.create_scraper()
-    print("scrapper listo")
     response = scraper.get(
-        url
-        )
-    print("scrapper terminado")
+            url, headers = {
+        'User-Agent': random.choice(user_agents)
+        }
+    )
         # response.content
         # pd.read_csv(StringIO(response.content.decode('utf-8-sig')))
         # Based on the error message, it seems the CSV data has an inconsistent number of columns
@@ -71,7 +83,7 @@ while True:
     except Exception as e:
         print("no captura")
         print(response.content.decode('utf-8-sig'))
-        time.sleep(30)
+        time.sleep(random.uniform(15,30))
         continue
 
     if dt.datetime(hora_actual.year, hora_actual.month, hora_actual.day, 0, 0, 0) < hora_actual <= dt.datetime(hora_actual.year, hora_actual.month, hora_actual.day, 8, 0, 0):
@@ -82,7 +94,10 @@ while True:
         bloque = 2
     url = f"https://www.coordinador.cl/wp-content/uploads/{hora_actual.year}/{str(hora_actual.month).zfill(2)}/PROGRAMA{hora_actual.strftime('%Y%m%d')}.zip"
     # Download the zip file
-    response = scraper.get(url)
+    time.sleep(random.uniform(1,4))
+    response = scraper.get(url, headers = {
+    'User-Agent': random.choice(user_agents)
+    })
     zip_file = zipfile.ZipFile(io.BytesIO(response.content))
 
     # Find the xlsx file containing "PO" in the name
@@ -142,5 +157,5 @@ while True:
         st.plotly_chart(fig, use_container_width = True, key = f"key_{n_n}")
     n_n+=1
     # st.line_chart(x = st.session_state.data["datetime"], y = st.session_state.data["cmg"])
-    time.sleep(60)
+    time.sleep(random.uniform(45,60))
         # plot_placeholder.plotly_chart(fig, use_container_width=True, key = "plot_1")
