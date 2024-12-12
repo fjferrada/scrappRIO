@@ -76,6 +76,7 @@ while True:
                         skiprows=4)["FECHA;HORA;BCMG P.AZUCAR_22O".split(";")] # For newer pandas versions
         except Exception as e:
             print("no captura")
+            print(response.content.decode('utf-8-sig'))
             time.sleep(30)
             continue
     
