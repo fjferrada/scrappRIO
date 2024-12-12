@@ -9,6 +9,7 @@ import datetime as dt
 import time
 import streamlit as st
 import plotly.express as px
+import random
 import os
 
 if os.path.isfile("RIOs/registro.csv"):
