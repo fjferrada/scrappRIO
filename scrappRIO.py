@@ -12,6 +12,8 @@ import plotly.express as px
 import random
 import os
 
+print(dt.datetime.now())
+
 if os.path.isfile("RIOs/registro.csv"):
     RIO =pd.read_csv("RIOs/registro.csv").assign(
         datetime = lambda data: pd.to_datetime(data.datetime)
