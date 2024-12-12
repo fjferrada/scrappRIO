@@ -35,11 +35,11 @@ if 'data' not in st.session_state:
     st.session_state.data = data
     
 st.title('Real-time Data Scraping and Plotting')
-plot_spot = st.empty() # holding the spot for the graph
 # def update(st.session_state.data, RIO):
 n_n = 0
 while True:
     # Page title
+    plot_spot = st.empty() # holding the spot for the graph
     
     # Create placeholder for the plot
     # plot_placeholder = st.empty()
