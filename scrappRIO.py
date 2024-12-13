@@ -10,7 +10,7 @@ import random
 import os
 from update_files import upload_to_google_drive, download_from_google_drive
 
-def update_rio():
+def update_rio(creds):
     if os.path.isfile("data/registro.csv"):
         RIO = pd.read_csv("data/registro.csv").assign(
             datetime = lambda data: pd.to_datetime(data.datetime)
@@ -18,7 +18,7 @@ def update_rio():
     else:
         if not os.path.exists("data/"):
             os.mkdir("data/")
-        download_from_google_drive()
+        download_from_google_drive(creds)
         RIO = pd.read_csv("data/registro.csv").assign(
             datetime = lambda data: pd.to_datetime(data.datetime)
         ).sort_values(by = "datetime").reset_index(drop = True)
@@ -105,7 +105,7 @@ def update_rio():
             if len(aux_not_in_RIO) > 0:
                 RIO = pd.concat([RIO, aux_not_in_RIO], ignore_index=True).sort_values(by = "datetime").reset_index(drop = True)
                 RIO.to_csv("data/registro.csv", index = False)
-                upload_to_google_drive()
+                upload_to_google_drive(creds)
         testigo = False
 
 if __name__ == "__main__":

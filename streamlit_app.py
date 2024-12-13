@@ -56,7 +56,6 @@ def authenticate_user():
                 creds = flow.credentials
                 with open('token.pickle', 'wb') as token:
                     pickle.dump(creds, token)
-
     return creds
 
 @st.cache_data(ttl=random.randint(45, 65))  # Cache por 60 segundos
