@@ -6,6 +6,10 @@ from datetime import datetime
 from scrappRIO import update_rio
 from visualization import create_html_visualization
 import random
+from google_auth_oauthlib.flow import Flow
+from google.auth.transport.requests import Request
+import google.auth
+import pickle
 
 # Configuración de la página
 st.set_page_config(
@@ -14,20 +18,46 @@ st.set_page_config(
     layout="wide"
 )
 
-# Aplicar estilos personalizados
-st.markdown("""
-    <style>
-        .main {
-            padding: 20px;
-        }
-        .stPlotlyChart {
-            background-color: white;
-            padding: 15px;
-            border-radius: 8px;
-            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
-        }
-    </style>
-""", unsafe_allow_html=True)
+# Set up the OAuth 2.0 flow
+def authenticate_user():
+    # Load credentials from the secrets
+    client_id = st.secrets["google"]["client_id"]
+    client_secret = st.secrets["google"]["client_secret"]
+
+    # Load credentials from the file
+    if os.path.exists('token.pickle'):
+        with open('token.pickle', 'rb') as token:
+            creds = pickle.load(token)
+    else:
+        creds = None
+
+    # If there are no valid credentials available, let the user log in.
+    if not creds or not creds.valid:
+        if creds and creds.expired and creds.refresh_token:
+            creds.refresh(Request())
+        else:
+            flow = Flow.from_client_config(
+                {
+                    "installed": {
+                        "client_id": client_id,
+                        "client_secret": client_secret,
+                        "auth_uri": "https://accounts.google.com/o/oauth2/auth",
+                        "token_uri": "https://oauth2.googleapis.com/token",
+                        "redirect_uris": ["http://localhost:8501"]
+                    }
+                },
+                scopes=['https://www.googleapis.com/auth/userinfo.profile', 'https://www.googleapis.com/auth/userinfo.email', 'openid']
+            )
+            auth_url, _ = flow.authorization_url(prompt='consent')
+            st.write(f"Please go to this URL: {auth_url}")
+            code = st.text_input("Enter the authorization code:")
+            if code:
+                flow.fetch_token(code=code)
+                creds = flow.credentials
+                with open('token.pickle', 'wb') as token:
+                    pickle.dump(creds, token)
+
+    return creds
 
 @st.cache_data(ttl=random.randint(45, 65))  # Cache por 60 segundos
 def load_data():
@@ -104,5 +134,17 @@ def main():
         st.cache_data.clear()
         st.rerun()
 
+    creds = authenticate_user()
+    if creds:
+        st.success("You are authenticated!")
+        # You can now use the credentials to access Google APIs
+    else:
+        st.error("Authentication failed.")
+
 if __name__ == "__main__":
-    main() 
+    creds = authenticate_user()
+    if creds:
+        st.success("You are authenticated!")
+        # You can now use the credentials to access Google APIs
+    else:
+        st.error("Authentication failed.")
