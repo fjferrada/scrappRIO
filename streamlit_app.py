@@ -24,6 +24,10 @@ def authenticate_user():
     client_id = st.secrets["google"]["client_id"]
     client_secret = st.secrets["google"]["client_secret"]
 
+    # Debug: Print client ID and redirect URIs
+    print(f"Client ID: {client_id}")
+    print("Redirect URIs: http://localhost:8501")
+
     # Load credentials from the file
     if os.path.exists('token.pickle'):
         with open('token.pickle', 'rb') as token:
