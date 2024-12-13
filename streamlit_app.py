@@ -60,9 +60,9 @@ def authenticate_user():
     return creds
 
 @st.cache_data(ttl=random.randint(45, 65))  # Cache por 60 segundos
-def load_data():
+def load_data(creds):
     """Cargar y cachear datos del CSV"""
-    update_rio()
+    update_rio(creds)
     try:
         csv_path = os.path.join('data', 'registro.csv')
         df = pd.read_csv(csv_path).assign(
@@ -124,22 +124,10 @@ def create_plot(df):
 
 def main():    
     # Crear y mostrar el gráfico
-    df, modification_time = load_data()
+    df, modification_time = load_data(authenticate_user())
     fig = create_plot(df)
     html_content = create_html_visualization(fig, modification_time)
     st.components.html(html_content)
-
-    # Botón para actualización manual
-    if st.button("Refresh Data"):
-        st.cache_data.clear()
-        st.rerun()
-
-    creds = authenticate_user()
-    if creds:
-        st.success("You are authenticated!")
-        # You can now use the credentials to access Google APIs
-    else:
-        st.error("Authentication failed.")
 
 if __name__ == "__main__":
     creds = authenticate_user()

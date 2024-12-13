@@ -8,42 +8,8 @@ from googleapiclient.http import MediaFileUpload, MediaIoBaseDownload
 import streamlit as st
 
 
-def upload_to_google_drive():
+def upload_to_google_drive(creds):
     """Uploads a file to a specific folder in Google Drive, overwriting if it exists."""
-    SCOPES = ['https://www.googleapis.com/auth/drive.file']
-    creds = None
-    # Use Streamlit secrets to get credentials
-    client_id = st.secrets["google"]["client_id"]
-    client_secret = st.secrets["google"]["client_secret"]
-    redirect_uris = st.secrets["google"]["redirect_uris"]
-
-    # Create a credentials.json-like structure
-    credentials_info = {
-        "installed": {
-            "client_id": client_id,
-            "client_secret": client_secret,
-            "auth_uri": "https://accounts.google.com/o/oauth2/auth",
-            "token_uri": "https://oauth2.googleapis.com/token",
-            "redirect_uris": redirect_uris
-        }
-    }
-
-    # The file token.json stores the user's access and refresh tokens, and is
-    # created automatically when the authorization flow completes for the first
-    # time.
-    if os.path.exists('token.json'):
-        creds = Credentials.from_authorized_user_file('token.json', SCOPES)
-    # If there are no (valid) credentials available, let the user log in.
-    if not creds or not creds.valid:
-        if creds and creds.expired and creds.refresh_token:
-            creds.refresh(Request())
-        else:
-            flow = InstalledAppFlow.from_client_config(
-                credentials_info, SCOPES)
-            creds = flow.run_local_server(port=0)
-        # Save the credentials for the next run
-        with open('token.json', 'w') as token:
-            token.write(creds.to_json())
 
     try:
         service = build('drive', 'v3', credentials=creds)
@@ -75,43 +41,7 @@ def upload_to_google_drive():
     except Exception as e:
         print(f"An error occurred: {e}")
 
-def download_from_google_drive():
-    """Downloads 'registro.csv' from a specific folder in Google Drive."""
-    SCOPES = ['https://www.googleapis.com/auth/drive.file']
-    creds = None
-    # Use Streamlit secrets to get credentials
-    client_id = st.secrets["google"]["client_id"]
-    client_secret = st.secrets["google"]["client_secret"]
-    redirect_uris = st.secrets["google"]["redirect_uris"]
-
-    # Create a credentials.json-like structure
-    credentials_info = {
-        "installed": {
-            "client_id": client_id,
-            "client_secret": client_secret,
-            "auth_uri": "https://accounts.google.com/o/oauth2/auth",
-            "token_uri": "https://oauth2.googleapis.com/token",
-            "redirect_uris": redirect_uris
-        }
-    }
-
-    # The file token.json stores the user's access and refresh tokens, and is
-    # created automatically when the authorization flow completes for the first
-    # time.
-    if os.path.exists('token.json'):
-        creds = Credentials.from_authorized_user_file('token.json', SCOPES)
-    # If there are no (valid) credentials available, let the user log in.
-    if not creds or not creds.valid:
-        if creds and creds.expired and creds.refresh_token:
-            creds.refresh(Request())
-        else:
-            flow = InstalledAppFlow.from_client_config(
-                credentials_info, SCOPES)
-            creds = flow.run_local_server(port=0)
-        # Save the credentials for the next run
-        with open('token.json', 'w') as token:
-            token.write(creds.to_json())
-
+def download_from_google_drive(creds):
     try:
         service = build('drive', 'v3', credentials=creds)
 
